@@ -1,3 +1,25 @@
+> ### 📌 本仓库说明
+>
+> 这是基于 [unmev/douyin-auto-fire](https://github.com/unmev/douyin-auto-fire) 的**个人改造版**，不是上游官方仓库。
+> 上游代码遵循 **PolyForm Noncommercial License 1.0.0**（见 [LICENSE](LICENSE)），仅供个人学习与非商业使用。
+>
+> **相对上游的主要改动**
+>
+> - `run-daily.py` —— 计划任务统一入口。按「时间槽」判定是否需要发送，配合**开机登录 / 主时间 / 兜底时间**三个触发器，
+>   解决「到点电脑关机就整天漏发」的问题；同一天多次触发会自动跳过，不会重复发送
+> - `local-login.py` —— 扫码登录，自动检测登录完成，无需在终端按回车
+> - `doh_proxy.py` —— 可选组件。给自动化**自己的浏览器**单独一条 DoH 解析通道，用于系统 DNS 把抖音域名
+>   解析成 `0.0.0.0` 的机器（例如装了网站屏蔽工具）；系统其它程序的解析结果不受影响
+> - `安装.ps1` / `安装.cmd` / `分享说明.md` —— 面向普通用户的一键安装（自动建环境、扫码、写配置、注册计划任务）
+> - `打包分享包.ps1` —— 生成不含任何凭证的分享包，带文件名 / JSON 结构 / 会话值三重安全校验
+> - `app/browser.py` 增加一处**向后兼容**补丁：允许用 `DOUYIN_BROWSER_ARGS` 环境变量给 Chromium 追加启动参数
+>   （不设置该变量时行为与上游完全一致）
+>
+> ⚠️ 抖音对自动化操作是敏感的。在 GitHub Actions 的机房 IP 上发送时，服务端会直接返回
+> `{"decision":"KICK"}` 并踢掉登录会话；家庭宽带 IP 正常。请勿频繁重试。
+
+---
+
 # 🔥 抖音自动续火花
 
 [![GitHub stars](https://img.shields.io/github/stars/unmev/douyin-auto-fire?style=flat-square)](https://github.com/unmev/douyin-auto-fire/stargazers)
